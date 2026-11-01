@@ -73,7 +73,13 @@ export default function App() {
         throw new Error(data.detail || "Extraction failed");
       }
 
-      setGrievances(prev => [...data.grievances, ...prev]);
+      if (!data.grievances || data.grievances.length === 0) {
+        setAlertError("No civic infrastructure issues detected in the provided input.");
+      } else {
+        setGrievances(prev => [...data.grievances, ...prev]);
+        setAlertError(null);
+      }
+      
       setExtractText('');
       setExtractFile(null);
     } catch (err) {
